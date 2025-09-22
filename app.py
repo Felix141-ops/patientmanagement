@@ -14,7 +14,7 @@ def init_db():
                         gender TEXT,
                         contact TEXT,
                         address TEXT,
-                        medical_history TEXT
+                        medical_concerns TEXT
                     )''')
     conn.commit()
     conn.close()
@@ -40,12 +40,12 @@ def add_patient():
         gender = request.form['gender']
         contact = request.form['contact']
         address = request.form['address']
-        history = request.form['history']
+        concern = request.form['concern']
 
         conn = sqlite3.connect('patients.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO patients (name, age, gender, contact, address, medical_history) VALUES (?, ?, ?, ?, ?, ?)",
-                       (name, age, gender, contact, address, history))
+        cursor.execute("INSERT INTO patients (name, age, gender, contact, address, medical_concerns) VALUES (?, ?, ?, ?, ?, ?)",
+                       (name, age, gender, contact, address, concern))
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
@@ -64,12 +64,12 @@ def edit_patient(id):
         gender = request.form['gender']
         contact = request.form['contact']
         address = request.form['address']
-        history = request.form['history']
+        concern = request.form['concern']
 
         cursor.execute("""UPDATE patients 
-                          SET name=?, age=?, gender=?, contact=?, address=?, medical_history=?
+                          SET name=?, age=?, gender=?, contact=?, address=?, medical_concerns=?
                           WHERE id=?""",
-                       (name, age, gender, contact, address, history, id))
+                       (name, age, gender, contact, address, concern, id))
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
